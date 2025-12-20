@@ -59,7 +59,7 @@ const ProjectsSection: React.FC = () => {
   ];
 
   return (
-    <section id="projects" className="min-h-screen bg-orange-50 px-6 md:px-20 py-20">
+    <section id="projects" className="min-h-screen bg-gray-50 px-6 md:px-20 py-20">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -91,24 +91,25 @@ const ProjectsSection: React.FC = () => {
               onMouseLeave={() => setHoveredIndex(null)}
             >
               {/* Image & Gradient Overlay */}
-              <div className="relative w-full sm:h-36 md:h-48 lg:h-56 rounded-2xl overflow-hidden">
-                <motion.div
-                  className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}
-                />
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover rounded-2xl shadow-md transition-transform duration-500 group-hover:scale-105"
-                />
-                {/* Hover Icon */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: hoveredIndex === index ? 1 : 0, scale: hoveredIndex === index ? 1 : 0 }}
-                  className="absolute top-4 right-4 bg-white rounded-full p-3 shadow-lg"
-                >
-                  <ExternalLink className="w-5 h-5 text-blue-600" />
-                </motion.div>
-              </div>
+              {/* Image & Gradient Overlay */}
+            <div className="relative w-full h-40 rounded-t-2xl overflow-hidden flex items-center justify-center">
+              <motion.div
+                className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}
+              />
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full object-contain object-center transition-transform duration-500 group-hover:scale-105"
+              />
+              {/* Hover Icon */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: hoveredIndex === index ? 1 : 0, scale: hoveredIndex === index ? 1 : 0 }}
+                className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-md"
+              >
+                <ExternalLink className="w-4 h-4 text-blue-600" />
+              </motion.div>
+            </div>
 
               {/* Project Details */}
               <div className="p-6 flex flex-col gap-4 flex-1">
