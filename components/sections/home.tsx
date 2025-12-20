@@ -196,7 +196,7 @@ const HomeSection: React.FC = () => {
         >
           <div className="w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full border-4 border-blue-600 shadow-2xl overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100">
             <img
-              src="/assets/images/profile.jpg"
+              src="/assets/images/profile4.jpg"
               alt="Wilfred Osozi"
               className="w-full h-full object-cover"
             />
