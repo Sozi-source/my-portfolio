@@ -17,7 +17,7 @@ const ProjectsSection: React.FC = () => {
       color: "from-blue-500 to-cyan-500"
     },
     {
-      title: "E-commerce App",
+      title: "E-commerce",
       description: "A full-stack e-commerce application built with NextJS.",
       image: "/assets/images/shopping.png",
       link: "https://e-duka-three.vercel.app/",
