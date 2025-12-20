@@ -1,22 +1,36 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { SiHtml5, SiCss3, SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiTailwindcss, SiFigma, SiGithub, SiNodedotjs } from "react-icons/si";
 import Image from "next/image";
 
-const AboutSection: React.FC = () => {
- 
-const skills = [
-  { name: "HTML5", icon: SiHtml5 },
-  { name: "CSS3", icon: SiCss3 },
-  { name: "JavaScript", icon: SiJavascript },
-  { name: "TypeScript", icon: SiTypescript },
-  { name: "React.js", icon: SiReact },
-  { name: "Next.js", icon: SiNextdotjs },
-  { name: "Tailwind CSS", icon: SiTailwindcss },
-  { name: "Figma", icon: SiFigma },
-  { name: "Git/GitHub", icon: SiGithub },
-  { name: "Node.js", icon: SiNodedotjs },
+const Images = [
+  "/assets/images/profile1.webp",
+  "/assets/images/profile3.webp",
+  "/assets/images/profile4.jpg",
 ];
+
+const AboutSection: React.FC = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % Images.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const skills = [
+    { name: "HTML5", icon: SiHtml5 },
+    { name: "CSS3", icon: SiCss3 },
+    { name: "JavaScript", icon: SiJavascript },
+    { name: "TypeScript", icon: SiTypescript },
+    { name: "React.js", icon: SiReact },
+    { name: "Next.js", icon: SiNextdotjs },
+    { name: "Tailwind CSS", icon: SiTailwindcss },
+    { name: "Figma", icon: SiFigma },
+    { name: "Git/GitHub", icon: SiGithub },
+    { name: "Node.js", icon: SiNodedotjs },
+  ];
 
   return (
     <div className="bg-white">
@@ -25,22 +39,30 @@ const skills = [
         id="about"
         className="min-h-screen flex flex-col md:flex-row items-center justify-center px-5 md:px-[10%] py-20 gap-10"
       >
-        <motion.div
-          className="md:w-1/2 flex justify-center"
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <Image
-            src="/assets/images/profile.jpg"
-            alt="Profile"
-            width={20}
-            height={20}
-            className="w-64 h-64 md:w-72 md:h-72 rounded-full shadow-lg object-cover"
-          />
-        </motion.div>
+        {/* Image container */}
+        <div className="md:w-1/2 flex justify-center items-center relative w-72 h-72">
+          <AnimatePresence>
+            <motion.div
+              key={currentImageIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              className="absolute"
+            >
+              <Image
+                src={Images[currentImageIndex]}
+                alt="Profile"
+                width={300}
+                height={300}
+                className="rounded-full object-cover bg-transparent mix-blend-multiply"
+                priority
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
+        {/* About text */}
         <motion.div
           className="md:w-1/2"
           initial={{ opacity: 0, x: 50 }}
