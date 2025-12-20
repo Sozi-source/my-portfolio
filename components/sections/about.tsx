@@ -39,6 +39,25 @@ const AboutSection: React.FC = () => {
         id="about"
         className="min-h-screen flex flex-col md:flex-row items-center justify-center px-5 md:px-[10%] py-20 gap-10"
       >
+       {/* About text */}
+        <motion.div
+          className="md:w-1/2"
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
+            About Me
+          </h2>
+          <p className="text-gray-700 text-lg mb-5">
+            Hi! I’m Wilfred Osozi, a passionate web developer and technology enthusiast from Kenya. I specialize in building responsive, dynamic websites and applications using modern web technologies. I enjoy solving real-world problems, continuously learning new skills, and turning innovative ideas into interactive solutions.
+          </p>
+          <p className="text-gray-700 text-lg">
+            When I’m not coding, I enjoy playing football, watching intelligence-themed movies, and exploring emerging technologies. My goal is to create impactful digital experiences that make life easier and more enjoyable for people.
+          </p>
+        </motion.div>
+
         {/* Image container */}
         <div className="md:w-1/2 flex justify-center items-center relative w-72 h-72">
           <AnimatePresence>
@@ -61,25 +80,6 @@ const AboutSection: React.FC = () => {
             </motion.div>
           </AnimatePresence>
         </div>
-
-        {/* About text */}
-        <motion.div
-          className="md:w-1/2"
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
-            About Me
-          </h2>
-          <p className="text-gray-700 text-lg mb-5">
-            Hi! I’m Wilfred Osozi, a passionate web developer and technology enthusiast from Kenya. I specialize in building responsive, dynamic websites and applications using modern web technologies. I enjoy solving real-world problems, continuously learning new skills, and turning innovative ideas into interactive solutions.
-          </p>
-          <p className="text-gray-700 text-lg">
-            When I’m not coding, I enjoy playing football, watching intelligence-themed movies, and exploring emerging technologies. My goal is to create impactful digital experiences that make life easier and more enjoyable for people.
-          </p>
-        </motion.div>
       </section>
 
       {/* Skills Section */}
