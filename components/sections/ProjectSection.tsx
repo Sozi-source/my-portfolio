@@ -91,14 +91,14 @@ const ProjectsSection: React.FC = () => {
               onMouseLeave={() => setHoveredIndex(null)}
             >
               {/* Image & Gradient Overlay */}
-              <div className="relative w-full aspect-square rounded-2xl overflow-hidden">
+              <div className="relative w-full sm:h-36 md:h-48 lg:h-56 rounded-2xl overflow-hidden">
                 <motion.div
                   className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}
                 />
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-cover rounded-2xl shadow-md transition-transform duration-500 group-hover:scale-105"
                 />
                 {/* Hover Icon */}
                 <motion.div

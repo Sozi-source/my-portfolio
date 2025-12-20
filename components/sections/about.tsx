@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { SiHtml5, SiCss3, SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiTailwindcss, SiFigma, SiGithub, SiNodedotjs } from "react-icons/si";
 import Image from "next/image";
 
+
 const Images = [
   "/assets/images/profile1.webp",
   "/assets/images/profile3.webp",
@@ -22,14 +23,14 @@ const AboutSection: React.FC = () => {
   const skills = [
     { name: "HTML5", icon: SiHtml5 },
     { name: "CSS3", icon: SiCss3 },
-    { name: "JavaScript", icon: SiJavascript },
-    { name: "TypeScript", icon: SiTypescript },
-    { name: "React.js", icon: SiReact },
-    { name: "Next.js", icon: SiNextdotjs },
-    { name: "Tailwind CSS", icon: SiTailwindcss },
-    { name: "Figma", icon: SiFigma },
-    { name: "Git/GitHub", icon: SiGithub },
-    { name: "Node.js", icon: SiNodedotjs },
+    { name: "JavaScript", image: "/assets/icons/js.png" },
+    { name: "TypeScript", image: "/assets/icons/typescript.png" },
+    { name: "React.js", image: "/assets/icons/react.png" },
+    { name: "Next.js", image: "/assets/icons/next.png" },
+    { name: "Tailwind CSS", image: "/assets/icons/tailwind.png" },
+    { name: "Figma", image: "/assets/icons/figma.png" },
+    { name: "Git/GitHub", image: "/assets/icons/github.png" },
+    { name: "Node.js", image: "/assets/icons/node.png" },
   ];
 
   return (
@@ -98,27 +99,37 @@ const AboutSection: React.FC = () => {
         </motion.h2>
 
         <motion.div
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 w-full"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          {skills.map((skill, index) => {
-            const Icon = skill.icon;
-            return (
-              <motion.div
-                key={index}
-                className="flex flex-col items-center justify-center bg-gray-50 border border-gray-200 shadow-md rounded-lg p-5 hover:scale-105 transition-all"
-                whileHover={{ scale: 1.1, y: -5 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Icon className="w-10 h-10 text-blue-600 mb-2" />
-                <span className="text-gray-800 font-semibold text-center">{skill.name}</span>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+  className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 w-full"
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.8 }}
+>
+  {skills.map((skill, index) => (
+    <motion.div
+      key={index}
+      className="flex flex-col items-center justify-center bg-gray-50 border border-gray-200 shadow-md rounded-lg p-5 hover:scale-105 transition-all"
+      whileHover={{ scale: 1.1, y: -5 }}
+      transition={{ duration: 0.3 }}
+    >
+      {/* Render either image or icon */}
+      {skill.image ? (
+        <Image
+          src={skill.image}
+          alt={skill.name}
+          width={40}
+          height={40}
+          className="mb-2"
+          loading="lazy"
+        />
+      ) : skill.icon ? (
+        <skill.icon className="w-10 h-10 text-blue-600 mb-2" />
+      ) : null}
+
+      <span className="text-gray-800 font-semibold text-center">{skill.name}</span>
+      </motion.div>
+    ))}
+    </motion.div>
 
         <motion.p
           className="mt-10 text-gray-700 text-lg text-center max-w-3xl"
