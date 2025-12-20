@@ -1,6 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
-import ProfilePic from '@/assets/images/profile.jpg'
+import { motion } from "fram
 import { SiHtml5, SiCss3, SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiTailwindcss, SiFigma, SiGithub, SiNodedotjs } from "react-icons/si";
 import Image from "next/image";
 
@@ -34,7 +33,7 @@ const skills = [
           transition={{ duration: 0.6 }}
         >
           <Image
-            src={ProfilePic}
+            src="/assets/images/profile.jpg"
             alt="Profile"
             width={20}
             height={20}
