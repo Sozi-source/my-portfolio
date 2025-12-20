@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import ProfilePic from "../../public/profile.jpg";
+import ProfilePic from '@/assets/images/profile.jpg'
 import { SiHtml5, SiCss3, SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiTailwindcss, SiFigma, SiGithub, SiNodedotjs } from "react-icons/si";
 import Image from "next/image";
 
