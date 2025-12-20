@@ -1,9 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Code2, Sparkles } from "lucide-react";
-import ProfilePic from "../assets/profile.jpg"; // replace with your actual profile picture path
+import ProfilePic from "../assets/image/profile.jpg"; 
 import { SiHtml5, SiCss3, SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiTailwindcss, SiFigma, SiGithub, SiNodedotjs } from "react-icons/si";
-
+import Image from "next/image";
 
 const AboutSection: React.FC = () => {
  
@@ -34,9 +33,11 @@ const skills = [
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <img
-            src=""
+          <Image
+            src={ProfilePic}
             alt="Profile"
+            width={20}
+            height={20}
             className="w-64 h-64 md:w-72 md:h-72 rounded-full shadow-lg object-cover"
           />
         </motion.div>
