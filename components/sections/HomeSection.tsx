@@ -162,7 +162,7 @@ const HomeSection: React.FC = () => {
             <div className="relative">
               <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-xl">
                 <img
-                  src="/assets/images/profile4.jpg"
+                  src="/assets/images/profile4.webp"
                   alt="Wilfred Osozi"
                   className="w-full h-full object-cover"
                   style={{ objectPosition: '50% 30%' }}
