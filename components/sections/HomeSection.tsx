@@ -104,7 +104,7 @@ const HomeSection: React.FC = () => {
 
             {/* Title */}
             <h2 className="text-xl sm:text-2xl text-gray-600 mb-4 font-light">
-              Clinical Nutritionist & Full Stack Developer
+              Clinical Nutritionist & Full Stack Software Developer
             </h2>
 
             {/* Typing Animation */}
