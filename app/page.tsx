@@ -3,11 +3,11 @@
 
 import React from "react";
 import Header from "@/components/common/Header";
-import HomeSection from "@/components/sections/home";
+import HomeSection from "@/components/sections/HomeSection";
 import ProjectsSection from "@/components/sections/ProjectSection";
 import ExperienceSection from "@/components/sections/ExperienceSection";
 import ContactSection from "@/components/sections/ContactSection";
-import AboutSection from "@/components/sections/about";
+import AboutSection from "@/components/sections/AboutSection";
 
 
 

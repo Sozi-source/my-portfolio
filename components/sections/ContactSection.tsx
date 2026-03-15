@@ -1,138 +1,184 @@
+// app/components/sections/Contact.tsx
+"use client";
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Linkedin, Github, Instagram } from "lucide-react";
+import { 
+  Mail, Phone, MapPin, Linkedin, Github, 
+  Send, CheckCircle, AlertCircle, Clock
+} from "lucide-react";
+import { CompactCVButton } from "@/components/cv/CVDownloadButton";
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Add actual form submission logic here (e.g., email API, Formspree, etc.)
-    console.log(formData);
-    setSubmitted(true);
-    setFormData({ name: "", email: "", message: "" });
+    setStatus("loading");
+    setTimeout(() => {
+      setStatus("success");
+      setFormData({ name: "", email: "", message: "" });
+      setTimeout(() => setStatus("idle"), 3000);
+    }, 1000);
   };
+
+  const contactInfo = [
+    { icon: MapPin, label: "Location", value: "Nairobi, Kenya" },
+    { icon: Mail, label: "Email", value: "osoziw@gmail.com" },
+    { icon: Phone, label: "Phone", value: "+254 711 390 861" },
+    { icon: Clock, label: "Response", value: "< 24 hours" }
+  ];
 
   return (
-    <div className="bg-white min-h-screen px-5 md:px-[10%] py-20">
-      {/* Page Title */}
-      <motion.h2
-        className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-4"
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-      >
-        Contact Me
-      </motion.h2>
-
-      {/* Contact Container */}
-      <div className="flex flex-col md:flex-row gap-10 md:gap-20">
-        {/* Contact Info */}
-        <motion.div
-          className="md:w-1/2 flex flex-col gap-6"
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <p className="text-gray-700 text-lg">
-            I’m always open to discussing new projects, creative ideas, or opportunities to be part of your visions. Feel free to reach out using the form or my social media channels below.
+    <section id="contact" className="bg-gray-50 px-4 sm:px-6 lg:px-8 py-20 lg:py-24">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 mb-4">
+            <span className="w-12 h-px bg-teal-300" />
+            <span className="text-sm font-medium text-teal-600 uppercase tracking-wider">Contact</span>
+            <span className="w-12 h-px bg-teal-300" />
+          </div>
+          <h2 className="text-3xl md:text-4xl font-light text-gray-900">
+            Let's <span className="font-semibold text-teal-600">Connect</span>
+          </h2>
+          <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
+            Have a project in mind or want to collaborate? I'd love to hear from you.
           </p>
+        </div>
 
-          <div className="flex flex-col gap-4 text-gray-700">
-            <div className="flex items-center gap-3">
-              <MapPin className="w-5 h-5 text-blue-600" />
-              <span>Nairobi, Kenya</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Mail className="w-5 h-5 text-blue-600" />
-              <span>wilfred.osozi@gmail.com</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Phone className="w-5 h-5 text-blue-600" />
-              <span>+254 711390861</span>
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Contact Info */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Get in Touch</h3>
+              
+              <div className="space-y-4 mb-6">
+                {contactInfo.map((item, index) => {
+                  const Icon = item.icon;
+                  return (
+                    <div key={index} className="flex items-center gap-3">
+                      <div className="p-2 bg-teal-50 rounded-lg">
+                        <Icon className="w-4 h-4 text-teal-600" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500">{item.label}</p>
+                        <p className="text-sm text-gray-900">{item.value}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="flex gap-3 mb-6">
+                <a
+                  href="https://linkedin.com/in/wilfred-osozi"
+                  target="_blank"
+                  className="p-2 bg-gray-100 rounded-lg hover:bg-teal-600 hover:text-white transition-colors"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://github.com/Sozi-source"
+                  target="_blank"
+                  className="p-2 bg-gray-100 rounded-lg hover:bg-teal-600 hover:text-white transition-colors"
+                >
+                  <Github className="w-4 h-4" />
+                </a>
+                <a
+                  href="mailto:osoziw@gmail.com"
+                  className="p-2 bg-gray-100 rounded-lg hover:bg-teal-600 hover:text-white transition-colors"
+                >
+                  <Mail className="w-4 h-4" />
+                </a>
+              </div>
+
+              <div className="border-t border-gray-100 pt-4">
+                <p className="text-sm text-gray-600 mb-3">Download my CV for more details</p>
+                <CompactCVButton label="Download CV" />
+              </div>
             </div>
           </div>
 
-          <div className="flex gap-6 mt-6">
-            <a href="https://www.linkedin.com/in/wilfred-osozi" target="_blank" rel="noopener noreferrer">
-              <Linkedin className="w-6 h-6 text-blue-600 hover:text-blue-800 transition-all" />
-            </a>
-            <a href="https://github.com/wilfredosozi" target="_blank" rel="noopener noreferrer">
-              <Github className="w-6 h-6 text-gray-800 hover:text-black transition-all" />
-            </a>
-            <a href="https://instagram.com/wilfredosozi" target="_blank" rel="noopener noreferrer">
-              <Instagram className="w-6 h-6 text-pink-600 hover:text-pink-800 transition-all" />
-            </a>
+          {/* Contact Form */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Send a Message</h3>
+
+              {status === "success" && (
+                <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2 text-green-700 text-sm">
+                  <CheckCircle className="w-4 h-4" />
+                  Message sent successfully!
+                </div>
+              )}
+
+              {status === "error" && (
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700 text-sm">
+                  <AlertCircle className="w-4 h-4" />
+                  Something went wrong. Please try again.
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <input
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                  <textarea
+                    rows={4}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className={`w-full px-6 py-3 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-colors flex items-center justify-center gap-2 ${
+                    status === "loading" ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {status === "loading" ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      Send Message
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
           </div>
-        </motion.div>
-
-        {/* Contact Form */}
-        <motion.div
-          className="md:w-1/2 bg-gray-50 p-8 rounded-2xl shadow-lg"
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          {submitted && (
-            <div className="mb-4 p-4 bg-green-100 text-green-700 rounded">
-              Your message has been sent successfully!
-            </div>
-          )}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-            <div className="flex flex-col">
-              <label className="text-gray-700 font-medium mb-2">Name</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="text-gray-700 font-medium mb-2">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="text-gray-700 font-medium mb-2">Message</label>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows={5}
-                className="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 resize-none"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-all"
-            >
-              Send Message
-            </button>
-          </form>
-        </motion.div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

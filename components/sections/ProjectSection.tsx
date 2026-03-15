@@ -1,173 +1,244 @@
+// app/components/sections/ProjectsSection.tsx
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { ExternalLink, ArrowUpRight, Github } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ExternalLink, Github, Filter, X, Server, Database } from "lucide-react";
 
 const ProjectsSection: React.FC = () => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [filter, setFilter] = useState("all");
+  const [selectedProject, setSelectedProject] = useState<any>(null);
 
   const projects = [
     {
-      title: "Weather App",
-      description: "A web application that provides current weather information for any city using API integration.",
-      image: "/assets/images/weather.png",
-      link: "https://weather-one-lilac-34.vercel.app/",
-      tags: ["React", "API", "Tailwind"],
-      color: "from-blue-500 to-cyan-500"
+      title: "AfyaConnect",
+      description: "Healthcare platform connecting patients with providers. Features appointment booking, medical records, and telemedicine.",
+      image: "/assets/images/afya.webp",
+      link: "https://afyaconnect-bm8i.vercel.app/",
+      github: "https://github.com/Sozi-source/afyaconnect",
+      tags: ["Django", "React", "PostgreSQL"],
+      category: "fullstack",
+      features: [
+        "Patient-provider matching",
+        "Real-time chat consultations",
+        "Electronic medical records",
+        "Appointment scheduling"
+      ],
+      tech: ["Django REST", "React", "PostgreSQL", "WebSockets"]
     },
     {
-      title: "E-commerce",
-      description: "A full-stack e-commerce application built with NextJS.",
+      title: "E-Commerce Platform",
+      description: "Full-stack e-commerce with Django backend and React frontend.",
       image: "/assets/images/shopping.png",
       link: "https://e-duka-three.vercel.app/",
-      tags: ["Next.js", "Full-stack", "E-commerce"],
-      color: "from-purple-500 to-pink-500"
+      github: "https://github.com/Sozi-source/e-shop",
+      tags: ["Django", "React", "PostgreSQL"],
+      category: "fullstack",
+      features: [
+        "Product catalog",
+        "Shopping cart",
+        "User authentication",
+        "Payment processing"
+      ],
+      tech: ["Django REST", "React", "PostgreSQL", "JWT"]
+    },
+    {
+      title: "Weather App",
+      description: "Real-time weather application with 5-day forecast.",
+      image: "/assets/images/weather.png",
+      link: "https://weather-one-lilac-34.vercel.app/",
+      github: "https://github.com/Sozi-source/weather",
+      tags: ["React", "API", "Tailwind"],
+      category: "frontend",
+      features: [
+        "Real-time weather",
+        "5-day forecast",
+        "Location search"
+      ],
+      tech: ["React", "OpenWeather API", "Tailwind"]
     },
     {
       title: "Hotel Booking",
-      description: "A web app that allows users to search, book, and manage hotel reservations online.",
+      description: "Hotel reservation system with search and booking features.",
       image: "/assets/images/travel.png",
       link: "https://airbnb-clone-three-dusky.vercel.app/",
+      github: "https://github.com/Sozi-source/airbnb-clone",
       tags: ["React", "Booking", "UI/UX"],
-      color: "from-orange-500 to-red-500"
-    },
-    {
-      title: "Age Calculator",
-      description: "A web app that calculates a person's exact age based on their date of birth.",
-      image: "/assets/images/calculator.png",
-      link: "https://fe-mentor-tet4.vercel.app/",
-      tags: ["JavaScript", "Logic", "Interactive"],
-      color: "from-green-500 to-teal-500"
-    },
-    {
-      title: "Countries Information",
-      description: "A web app providing details about countries, including population, capital, and region.",
-      image: "/assets/images/country.png",
-      link: "https://country-search-hazel-beta.vercel.app/",
-      tags: ["React", "REST API", "Search"],
-      color: "from-indigo-500 to-blue-500"
-    },
-    {
-      title: "Guessing Challenge",
-      description: "The app lets users guess a randomly generated number between 0 and 100.",
-      image: "/assets/images/gg-512.png",
-      link: "https://number-game-nu-eight.vercel.app/",
-      tags: ["JavaScript", "Game", "Logic"],
-      color: "from-yellow-500 to-orange-500"
+      category: "frontend",
+      features: [
+        "Search filters",
+        "Booking calendar",
+        "User reviews"
+      ],
+      tech: ["React", "Context API", "Tailwind"]
     }
   ];
 
+  const categories = [
+    { id: "all", label: "All", icon: Filter },
+    { id: "fullstack", label: "Full Stack", icon: Server },
+    { id: "frontend", label: "Frontend", icon: ExternalLink }
+  ];
+
+  const filteredProjects = filter === "all" 
+    ? projects 
+    : projects.filter(p => p.category === filter);
+
   return (
-    <section id="projects" className="min-h-screen bg-gray-50 px-6 md:px-20 py-20">
+    <section id="projects" className="bg-white px-4 sm:px-6 lg:px-8 py-20 lg:py-24">
       <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: -30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
-            Featured Projects
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 mb-4">
+            <span className="w-12 h-px bg-teal-300" />
+            <span className="text-sm font-medium text-teal-600 uppercase tracking-wider">Portfolio</span>
+            <span className="w-12 h-px bg-teal-300" />
+          </div>
+          <h2 className="text-3xl md:text-4xl font-light text-gray-900">
+            Featured <span className="font-semibold text-teal-600">Projects</span>
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            A collection of my recent work showcasing web development, design, and problem-solving skills.
-          </p>
-        </motion.div>
+        </div>
+
+        {/* Filters */}
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
+          {categories.map((cat) => {
+            const Icon = cat.icon;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setFilter(cat.id)}
+                className={`flex items-center gap-2 px-6 py-2 rounded-full text-sm font-medium transition-colors ${
+                  filter === cat.id
+                    ? "bg-teal-600 text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                {cat.label}
+              </button>
+            );
+          })}
+        </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-4">
-          {projects.map((project, index) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProjects.map((project, index) => (
             <motion.div
-              key={index}
-              className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 w-full flex flex-col"
-              initial={{ opacity: 0, y: 50 }}
+              key={project.title}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
+              transition={{ delay: index * 0.1 }}
+              className="bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+              onClick={() => setSelectedProject(project)}
             >
-              {/* Image & Gradient Overlay */}
-              {/* Image & Gradient Overlay */}
-            <div className="relative w-full h-40 rounded-t-2xl overflow-hidden flex items-center justify-center">
-              <motion.div
-                className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}
-              />
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-full object-contain object-center transition-transform duration-500 group-hover:scale-105"
-              />
-              {/* Hover Icon */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: hoveredIndex === index ? 1 : 0, scale: hoveredIndex === index ? 1 : 0 }}
-                className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-md"
-              >
-                <ExternalLink className="w-4 h-4 text-blue-600" />
-              </motion.div>
-            </div>
-
-              {/* Project Details */}
-              <div className="p-6 flex flex-col gap-4 flex-1">
-                <div className="flex items-start justify-between">
-                  <h3 className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                    {project.title}
-                  </h3>
-                  <motion.div whileHover={{ rotate: 45 }} transition={{ duration: 0.3 }}>
-                    <ArrowUpRight className="w-6 h-6 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                  </motion.div>
-                </div>
-                <p className="text-gray-600 text-sm leading-relaxed">{project.description}</p>
-                
-                <motion.a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-blue-600 font-semibold hover:gap-3 transition-all group/link"
-                  whileHover={{ x: 5 }}
-                >
-                  View Project
-                  <ExternalLink className="w-4 h-4 group-hover/link:rotate-45 transition-transform" />
-                </motion.a>
+              <div className="h-48 bg-white p-4 flex items-center justify-center border-b border-gray-100">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="max-h-full max-w-full object-contain"
+                />
               </div>
-
-              {/* Gradient Divider */}
-              <motion.div
-                className={`h-1 bg-gradient-to-r ${project.color}`}
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: hoveredIndex === index ? 1 : 0 }}
-                transition={{ duration: 0.5 }}
-                style={{ transformOrigin: "left" }}
-              />
+              <div className="p-5">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{project.title}</h3>
+                <p className="text-sm text-gray-600 mb-3 line-clamp-2">{project.description}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {project.tags.map((tag, i) => (
+                    <span key={i} className="px-2 py-1 bg-teal-100 text-teal-700 text-xs rounded-full">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>
 
-        {/* GitHub Button */}
-        <motion.div
-          className="mt-16 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <motion.a
-            href="https://github.com"
+        {/* GitHub Link */}
+        <div className="text-center mt-12">
+          <a
+            href="https://github.com/sozi-source"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition shadow-lg"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
           >
             <Github className="w-5 h-5" />
             View More on GitHub
-          </motion.a>
-        </motion.div>
+          </a>
+        </div>
       </div>
+
+      {/* Project Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedProject(null)}
+            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+            >
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-xl font-bold text-gray-900">{selectedProject.title}</h3>
+                  <button onClick={() => setSelectedProject(null)} className="text-gray-500 hover:text-gray-700">
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <img
+                  src={selectedProject.image}
+                  alt={selectedProject.title}
+                  className="w-full max-h-48 object-contain bg-gray-50 rounded-lg mb-4"
+                />
+
+                <p className="text-gray-600 mb-4">{selectedProject.description}</p>
+
+                <h4 className="font-semibold text-gray-900 mb-2">Features:</h4>
+                <ul className="list-disc list-inside mb-4 text-sm text-gray-600">
+                  {selectedProject.features?.map((f: string, i: number) => (
+                    <li key={i}>{f}</li>
+                  ))}
+                </ul>
+
+                <h4 className="font-semibold text-gray-900 mb-2">Tech Stack:</h4>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {selectedProject.tech?.map((t: string, i: number) => (
+                    <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex gap-3">
+                  <a
+                    href={selectedProject.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-center"
+                  >
+                    Live Demo
+                  </a>
+                  <a
+                    href={selectedProject.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 text-center"
+                  >
+                    GitHub
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
