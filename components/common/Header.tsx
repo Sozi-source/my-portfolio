@@ -68,7 +68,7 @@ const Header: React.FC = () => {
       }`}
     >
       <nav className="flex justify-between items-center h-full px-5 md:px-10 max-w-7xl mx-auto">
-        {/* Logo */}
+        {/* Logo - Using Playfair Display for elegance */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -76,10 +76,12 @@ const Header: React.FC = () => {
         >
           <button
             onClick={() => handleNavClick("home")}
-            className="text-2xl font-extrabold group relative"
+            className="group relative"
           >
-            <span className="text-teal-600">Wilfred</span>{' '}
-            <span className="text-gray-900">Osozi</span>
+            <span className="font-heading text-2xl font-bold">
+              <span className="text-teal-600">Wilfred</span>{' '}
+              <span className="text-gray-900">Osozi</span>
+            </span>
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-teal-600 group-hover:w-full transition-all duration-300" />
           </button>
         </motion.div>
@@ -97,7 +99,7 @@ const Header: React.FC = () => {
                       : "text-gray-700 hover:text-teal-600 hover:bg-gray-50"
                   }`}
                 >
-                  {item.name}
+                  <span className="font-body">{item.name}</span>
                   {activeSection === item.id && (
                     <motion.div
                       layoutId="activeSection"
@@ -187,7 +189,7 @@ const Header: React.FC = () => {
                         <Icon className={`w-5 h-5 ${
                           activeSection === item.id ? "text-teal-600" : "text-gray-400"
                         }`} />
-                        <span className="flex-1 text-left">{item.name}</span>
+                        <span className="flex-1 text-left font-body">{item.name}</span>
                       </button>
                     </motion.li>
                   );

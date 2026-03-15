@@ -3,171 +3,236 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Github, Filter, X, Server, Database } from "lucide-react";
+import { 
+  ExternalLink, 
+  Github, 
+  Heart, 
+  ShoppingBag, 
+  Cloud, 
+  Sun,
+  Sparkles,
+  X
+} from "lucide-react";
+
+interface Project {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  color: string;
+  tags: string[];
+  liveUrl: string;
+  githubUrl: string;
+}
 
 const ProjectsSection: React.FC = () => {
-  const [filter, setFilter] = useState("all");
-  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const projects = [
+  const projects: Project[] = [
     {
       title: "AfyaConnect",
-      description: "Healthcare platform connecting patients with providers. Features appointment booking, medical records, and telemedicine.",
-      image: "/assets/images/afya.webp",
-      link: "https://afyaconnect-bm8i.vercel.app/",
-      github: "https://github.com/Sozi-source/afyaconnect",
-      tags: ["Django", "React", "PostgreSQL"],
-      category: "fullstack",
-      features: [
-        "Patient-provider matching",
-        "Real-time chat consultations",
-        "Electronic medical records",
-        "Appointment scheduling"
-      ],
-      tech: ["Django REST", "React", "PostgreSQL", "WebSockets"]
+      description: "A healthcare platform connecting patients with medical providers. Features real-time consultations and smart scheduling.",
+      icon: <Heart className="w-8 h-8" />,
+      color: "teal",
+      tags: ["Django", "React", "PostgreSQL", "WebSockets"],
+      liveUrl: "https://afyaconnect-bm8i.vercel.app/",
+      githubUrl: "https://github.com/Sozi-source/afyaconnect"
     },
     {
       title: "E-Commerce Platform",
-      description: "Full-stack e-commerce with Django backend and React frontend.",
-      image: "/assets/images/shopping.png",
-      link: "https://e-duka-three.vercel.app/",
-      github: "https://github.com/Sozi-source/e-shop",
-      tags: ["Django", "React", "PostgreSQL"],
-      category: "fullstack",
-      features: [
-        "Product catalog",
-        "Shopping cart",
-        "User authentication",
-        "Payment processing"
-      ],
-      tech: ["Django REST", "React", "PostgreSQL", "JWT"]
+      description: "Full-stack e-commerce with product catalog, shopping cart, and secure payments.",
+      icon: <ShoppingBag className="w-8 h-8" />,
+      color: "blue",
+      tags: ["Django", "React", "PostgreSQL", "Redux"],
+      liveUrl: "https://e-duka-three.vercel.app/",
+      githubUrl: "https://github.com/Sozi-source/e-shop"
     },
     {
       title: "Weather App",
-      description: "Real-time weather application with 5-day forecast.",
-      image: "/assets/images/weather.png",
-      link: "https://weather-one-lilac-34.vercel.app/",
-      github: "https://github.com/Sozi-source/weather",
+      description: "Real-time weather with current conditions, 5-day forecast, and location search.",
+      icon: <Sun className="w-8 h-8" />,
+      color: "amber",
       tags: ["React", "API", "Tailwind"],
-      category: "frontend",
-      features: [
-        "Real-time weather",
-        "5-day forecast",
-        "Location search"
-      ],
-      tech: ["React", "OpenWeather API", "Tailwind"]
+      liveUrl: "https://weather-one-lilac-34.vercel.app/",
+      githubUrl: "https://github.com/Sozi-source/weather"
     },
     {
       title: "Hotel Booking",
-      description: "Hotel reservation system with search and booking features.",
-      image: "/assets/images/travel.png",
-      link: "https://airbnb-clone-three-dusky.vercel.app/",
-      github: "https://github.com/Sozi-source/airbnb-clone",
-      tags: ["React", "Booking", "UI/UX"],
-      category: "frontend",
-      features: [
-        "Search filters",
-        "Booking calendar",
-        "User reviews"
-      ],
-      tech: ["React", "Context API", "Tailwind"]
+      description: "Hotel reservation platform with search filters, calendar, and reviews.",
+      icon: <Cloud className="w-8 h-8" />,
+      color: "purple",
+      tags: ["React", "Context API", "Tailwind"],
+      liveUrl: "https://airbnb-clone-three-dusky.vercel.app/",
+      githubUrl: "https://github.com/Sozi-source/airbnb-clone"
     }
   ];
 
-  const categories = [
-    { id: "all", label: "All", icon: Filter },
-    { id: "fullstack", label: "Full Stack", icon: Server },
-    { id: "frontend", label: "Frontend", icon: ExternalLink }
-  ];
-
-  const filteredProjects = filter === "all" 
-    ? projects 
-    : projects.filter(p => p.category === filter);
+  const getColorClasses = (color: string) => {
+    const colors: Record<string, { 
+      text: string, 
+      border: string, 
+      button: string, 
+      hover: string,
+      light: string 
+    }> = {
+      teal: { 
+        text: "text-teal-600", 
+        border: "border-teal-200", 
+        button: "bg-teal-600", 
+        hover: "hover:bg-teal-700",
+        light: "bg-teal-100"
+      },
+      blue: { 
+        text: "text-blue-600", 
+        border: "border-blue-200", 
+        button: "bg-blue-600", 
+        hover: "hover:bg-blue-700",
+        light: "bg-blue-100"
+      },
+      amber: { 
+        text: "text-amber-600", 
+        border: "border-amber-200", 
+        button: "bg-amber-600", 
+        hover: "hover:bg-amber-700",
+        light: "bg-amber-100"
+      },
+      purple: { 
+        text: "text-purple-600", 
+        border: "border-purple-200", 
+        button: "bg-purple-600", 
+        hover: "hover:bg-purple-700",
+        light: "bg-purple-100"
+      },
+    };
+    return colors[color] || colors.teal;
+  };
 
   return (
-    <section id="projects" className="bg-white px-4 sm:px-6 lg:px-8 py-20 lg:py-24">
+    <section id="projects" className="py-16 sm:py-20 md:py-24 bg-gray-50 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <span className="w-12 h-px bg-teal-300" />
-            <span className="text-sm font-medium text-teal-600 uppercase tracking-wider">Portfolio</span>
-            <span className="w-12 h-px bg-teal-300" />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-50 rounded-full mb-4">
+            <Sparkles className="w-4 h-4 text-teal-600" />
+            <span className="text-sm font-medium text-teal-700">My Work</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-light text-gray-900">
-            Featured <span className="font-semibold text-teal-600">Projects</span>
-          </h2>
-        </div>
 
-        {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {categories.map((cat) => {
-            const Icon = cat.icon;
+          <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-light text-gray-800 mb-3">
+            Featured <span className="font-bold text-teal-600">Projects</span>
+          </h2>
+          
+          <p className="font-body text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">
+            Each project is crafted with attention to detail and user experience
+          </p>
+        </motion.div>
+
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project, index) => {
+            const colors = getColorClasses(project.color);
+            
             return (
-              <button
-                key={cat.id}
-                onClick={() => setFilter(cat.id)}
-                className={`flex items-center gap-2 px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-                  filter === cat.id
-                    ? "bg-teal-600 text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true }}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                onClick={() => setSelectedProject(project)}
+                className={`group relative rounded-xl overflow-hidden cursor-pointer bg-white border-2 ${colors.border} shadow-md hover:shadow-xl transition-all`}
               >
-                <Icon className="w-4 h-4" />
-                {cat.label}
-              </button>
+                <div className="p-6">
+                  {/* Header with icon */}
+                  <div className="flex items-start gap-3 mb-4">
+                    <div className={`w-14 h-14 rounded-xl ${colors.light} flex items-center justify-center ${colors.text}`}>
+                      {project.icon}
+                    </div>
+                    <div>
+                      <h3 className="font-heading text-lg font-bold text-gray-800">{project.title}</h3>
+                      <span className={`inline-block mt-1 px-3 py-1 text-xs font-medium rounded-full ${colors.light} ${colors.text}`}>
+                        {project.color === 'teal' ? 'Healthcare' : 
+                         project.color === 'blue' ? 'E-commerce' : 
+                         project.color === 'amber' ? 'Weather' : 'Booking'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <p className="font-body text-sm text-gray-600 mb-4 line-clamp-2">
+                    {project.description}
+                  </p>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {project.tags.map((tag, i) => (
+                      <span
+                        key={i}
+                        className="px-2 py-1 text-xs bg-gray-100 rounded-full text-gray-600"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Action buttons */}
+                  <div className="flex gap-2 pt-3 border-t border-gray-100">
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`flex-1 px-3 py-2 ${colors.button} text-white text-sm rounded-lg ${colors.hover} transition-all flex items-center justify-center gap-1`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      Live Demo
+                    </a>
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg hover:bg-gray-900 transition-all flex items-center justify-center gap-1"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Github className="w-3 h-3" />
+                      Code
+                    </a>
+                  </div>
+                </div>
+
+                {/* Animated border on hover */}
+                {hoveredIndex === index && (
+                  <motion.div
+                    className={`absolute bottom-0 left-0 right-0 h-1 ${colors.button}`}
+                    layoutId="projectBorder"
+                  />
+                )}
+              </motion.div>
             );
           })}
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
-              onClick={() => setSelectedProject(project)}
-            >
-              <div className="h-48 bg-white p-4 flex items-center justify-center border-b border-gray-100">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="max-h-full max-w-full object-contain"
-                />
-              </div>
-              <div className="p-5">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{project.title}</h3>
-                <p className="text-sm text-gray-600 mb-3 line-clamp-2">{project.description}</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {project.tags.map((tag, i) => (
-                    <span key={i} className="px-2 py-1 bg-teal-100 text-teal-700 text-xs rounded-full">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* GitHub Link */}
-        <div className="text-center mt-12">
+        {/* View more link */}
+        <div className="text-center mt-10">
           <a
-            href="https://github.com/sozi-source"
+            href="https://github.com/Sozi-source"
             target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 text-white rounded-xl hover:bg-gray-900 transition-all shadow-md"
           >
-            <Github className="w-5 h-5" />
-            View More on GitHub
+            <Github className="w-4 h-4" />
+            <span>More on GitHub</span>
+            <ExternalLink className="w-3 h-3 opacity-70" />
           </a>
         </div>
       </div>
 
-      {/* Project Modal */}
+      {/* Modal */}
       <AnimatePresence>
         {selectedProject && (
           <motion.div
@@ -182,54 +247,46 @@ const ProjectsSection: React.FC = () => {
               animate={{ scale: 1 }}
               exit={{ scale: 0.9 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+              className="bg-white rounded-xl max-w-lg w-full max-h-[80vh] overflow-y-auto shadow-xl"
             >
               <div className="p-6">
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold text-gray-900">{selectedProject.title}</h3>
-                  <button onClick={() => setSelectedProject(null)} className="text-gray-500 hover:text-gray-700">
-                    <X className="w-5 h-5" />
+                  <div className="flex items-center gap-3">
+                    <div className={`w-12 h-12 rounded-xl ${getColorClasses(selectedProject.color).light} flex items-center justify-center`}>
+                      {selectedProject.icon}
+                    </div>
+                    <h3 className="font-heading text-xl font-bold text-gray-800">{selectedProject.title}</h3>
+                  </div>
+                  <button onClick={() => setSelectedProject(null)} className="p-1 hover:bg-gray-100 rounded-full">
+                    <X className="w-5 h-5 text-gray-500" />
                   </button>
                 </div>
 
-                <img
-                  src={selectedProject.image}
-                  alt={selectedProject.title}
-                  className="w-full max-h-48 object-contain bg-gray-50 rounded-lg mb-4"
-                />
+                <p className="font-body text-gray-600 mb-4">{selectedProject.description}</p>
 
-                <p className="text-gray-600 mb-4">{selectedProject.description}</p>
-
-                <h4 className="font-semibold text-gray-900 mb-2">Features:</h4>
-                <ul className="list-disc list-inside mb-4 text-sm text-gray-600">
-                  {selectedProject.features?.map((f: string, i: number) => (
-                    <li key={i}>{f}</li>
-                  ))}
-                </ul>
-
-                <h4 className="font-semibold text-gray-900 mb-2">Tech Stack:</h4>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {selectedProject.tech?.map((t: string, i: number) => (
-                    <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg">
-                      {t}
-                    </span>
-                  ))}
+                <div className="mb-4">
+                  <h4 className="font-heading text-sm font-semibold text-gray-700 mb-2">Technologies</h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {selectedProject.tags.map((tag, i) => (
+                      <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex gap-3 mt-6">
                   <a
-                    href={selectedProject.link}
+                    href={selectedProject.liveUrl}
                     target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-center"
+                    className="flex-1 px-4 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 text-center"
                   >
                     Live Demo
                   </a>
                   <a
-                    href={selectedProject.github}
+                    href={selectedProject.githubUrl}
                     target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 text-center"
+                    className="flex-1 px-4 py-3 bg-gray-800 text-white rounded-xl hover:bg-gray-900 text-center"
                   >
                     GitHub
                   </a>

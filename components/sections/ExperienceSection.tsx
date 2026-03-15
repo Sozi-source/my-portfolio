@@ -16,7 +16,8 @@ import {
   Building2,
   Clock,
   Star,
-  ExternalLink
+  ExternalLink,
+  Sparkles
 } from "lucide-react";
 import { CVDownloadButton } from "@/components/cv/CVDownloadButton";
 
@@ -41,8 +42,7 @@ const ExperiencePage: React.FC = () => {
       ],
       skills: ["Leadership", "Curriculum Development", "Accreditation", "Budget Management", "Mentoring"],
       icon: Building2,
-      color: "border-teal-500",
-      bgColor: "bg-teal-50"
+      color: "teal"
     },
     {
       id: 2,
@@ -60,8 +60,7 @@ const ExperiencePage: React.FC = () => {
       ],
       skills: ["Teaching", "Curriculum Design", "Student Mentoring", "LMS Integration", "Assessment"],
       icon: GraduationCap,
-      color: "border-teal-500",
-      bgColor: "bg-teal-50"
+      color: "blue"
     },
     {
       id: 3,
@@ -79,8 +78,7 @@ const ExperiencePage: React.FC = () => {
       ],
       skills: ["Clinical Training", "Curriculum Development", "Student Assessment", "Healthcare", "Mentoring"],
       icon: BookOpen,
-      color: "border-teal-500",
-      bgColor: "bg-teal-50"
+      color: "amber"
     },
     {
       id: 4,
@@ -98,8 +96,7 @@ const ExperiencePage: React.FC = () => {
       ],
       skills: ["Clinical Nutrition", "Patient Counseling", "Community Health", "Therapeutic Diets", "Healthcare"],
       icon: Users,
-      color: "border-teal-500",
-      bgColor: "bg-teal-50"
+      color: "purple"
     },
     {
       id: 5,
@@ -117,8 +114,7 @@ const ExperiencePage: React.FC = () => {
       ],
       skills: ["React", "Next.js", "TypeScript", "Django", "API Development", "AI Integration"],
       icon: Code2,
-      color: "border-teal-500",
-      bgColor: "bg-teal-50"
+      color: "teal"
     }
   ];
 
@@ -135,8 +131,7 @@ const ExperiencePage: React.FC = () => {
         "Collaborated on team projects using Agile methodology"
       ],
       icon: Code2,
-      color: "border-sky-500",
-      bgColor: "bg-sky-50"
+      color: "blue"
     },
     {
       id: 2,
@@ -151,8 +146,7 @@ const ExperiencePage: React.FC = () => {
         "Active member of Nutrition Students Association"
       ],
       icon: GraduationCap,
-      color: "border-sky-500",
-      bgColor: "bg-sky-50"
+      color: "teal"
     },
     {
       id: 3,
@@ -166,8 +160,7 @@ const ExperiencePage: React.FC = () => {
         "Science congress participant"
       ],
       icon: BookOpen,
-      color: "border-sky-500",
-      bgColor: "bg-sky-50"
+      color: "amber"
     }
   ];
 
@@ -177,111 +170,101 @@ const ExperiencePage: React.FC = () => {
       name: "Full Stack Web Development",
       issuer: "ALX Africa",
       date: "2025",
-      skills: ["React", "Next.js", "Node.js", "TypeScript"]
+      skills: ["React", "Next.js", "Node.js", "TypeScript"],
+      color: "blue"
     },
     {
       id: 2,
       name: "Clinical Nutrition Specialist",
       issuer: "KNDI",
       date: "2023",
-      skills: ["Medical Nutrition Therapy", "Patient Care", "Diet Planning"]
+      skills: ["Medical Nutrition Therapy", "Patient Care", "Diet Planning"],
+      color: "teal"
     },
     {
       id: 3,
       name: "Django REST Framework",
       issuer: "Coding Bootcamp",
       date: "2024",
-      skills: ["API Development", "Django", "PostgreSQL"]
+      skills: ["API Development", "Django", "PostgreSQL"],
+      color: "purple"
     },
     {
       id: 4,
       name: "AI Integration Specialist",
       issuer: "Tech Academy",
       date: "2024",
-      skills: ["AI Tools", "Prompt Engineering", "Automation"]
+      skills: ["AI Tools", "Prompt Engineering", "Automation"],
+      color: "amber"
     }
   ];
 
   const achievements = [
-    "Implemented Kitchen Garden Program as teaching aid for practical nutrition education",
+    "Implemented a Kitchen Garden Program as a teaching aid, promoting practical and sustainable nutrition education",
     "Coordinated clinical rotations for students in Level 4 and 5 hospitals across Murang'a and Kiambu Counties",
-    "Led departmental growth from 50 to over 200 students within two years",
-    "Automated PDF letters generation using low-code tools, improving efficiency",
-    "Integrated Learning Management System (LMS) to enhance digital learning",
-    "Developed digital tools to streamline academic operations",
-    "Oversaw curriculum review and KNDI accreditation"
+    "Led departmental growth from 50 to over 200 students within two years through effective mentorship",
+    "Automated PDF letters generation using low-code tools, improving efficiency in student documentation",
+    "Integrated a Learning Management System (LMS) to enhance digital learning and student engagement",
+    "Developed digital tools to streamline academic operations and improve departmental productivity",
+    "Oversaw curriculum review and KNDI accreditation, ensuring compliance with national training standards"
   ];
 
   const stats = [
-    { icon: Briefcase, value: "9+", label: "Years Experience" },
-    { icon: Award, value: "12+", label: "Certifications" },
-    { icon: Users, value: "1000+", label: "Students Mentored" },
-    { icon: Code2, value: "15+", label: "Projects Built" }
+    { icon: Briefcase, value: "9+", label: "Years Experience", color: "teal" },
+    { icon: Award, value: "12+", label: "Certifications", color: "blue" },
+    { icon: Users, value: "1000+", label: "Students Mentored", color: "amber" },
+    { icon: Code2, value: "15+", label: "Projects Built", color: "purple" }
   ];
 
+  const getColorClasses = (color: string) => {
+    const colors: Record<string, { bg: string, light: string, text: string, border: string }> = {
+      teal: { bg: "bg-teal-600", light: "bg-teal-100", text: "text-teal-600", border: "border-teal-200" },
+      blue: { bg: "bg-blue-600", light: "bg-blue-100", text: "text-blue-600", border: "border-blue-200" },
+      amber: { bg: "bg-amber-600", light: "bg-amber-100", text: "text-amber-600", border: "border-amber-200" },
+      purple: { bg: "bg-purple-600", light: "bg-purple-100", text: "text-purple-600", border: "border-purple-200" },
+    };
+    return colors[color] || colors.teal;
+  };
+
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section - Clean teal background */}
+    <div id="experience" className="min-h-screen bg-white">
+      {/* Hero Section */}
       <section className="relative bg-teal-600 text-white py-16 sm:py-20 lg:py-24 overflow-hidden">
-        {/* Subtle pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'radial-gradient(circle at 2px 2px, white 2px, transparent 0)',
-            backgroundSize: '40px 40px'
-          }} />
-        </div>
-        
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-white/10 rounded-full backdrop-blur-sm mb-6 border border-white/20">
-              <Briefcase className="w-10 h-10" />
-            </div>
-            
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-light mb-4">
-              Professional <span className="font-semibold">Journey</span>
-            </h1>
-            
-            <p className="text-lg sm:text-xl text-teal-100 max-w-3xl mx-auto mb-8">
-              Over 9 years of experience in nutrition education, clinical practice, 
-              and software development across Kenya
-            </p>
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-6 border-2 border-white/50">
+            <Briefcase className="w-10 h-10" />
+          </div>
+          
+          <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-light mb-4">
+            My <span className="font-bold">Journey</span>
+          </h1>
+          
+          <p className="font-body text-lg sm:text-xl text-white/90 max-w-3xl mx-auto mb-8">
+            Over 9 years of experience in nutrition education, clinical practice, 
+            and software development across Kenya
+          </p>
 
-            {/* CV Button in Hero */}
-            <div className="flex justify-center">
-              <CVDownloadButton label="Download Full CV" />
-            </div>
-          </motion.div>
+          <div className="flex justify-center">
+            <CVDownloadButton label="Download CV" />
+          </div>
         </div>
-
-        {/* Simple wave divider */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-50 to-transparent" />
       </section>
 
       {/* Stats Section */}
       <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {stats.map((stat, index) => {
               const Icon = stat.icon;
+              const colors = getColorClasses(stat.color);
               return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="text-center"
-                >
-                  <div className="inline-flex items-center justify-center w-12 h-12 bg-white rounded-xl shadow-sm mb-3 border border-gray-100">
-                    <Icon className="w-6 h-6 text-teal-600" />
+                <div key={index} className="text-center bg-white rounded-xl shadow-md p-6">
+                  <div className={`inline-flex items-center justify-center w-12 h-12 ${colors.light} rounded-xl mb-3`}>
+                    <Icon className={`w-6 h-6 ${colors.text}`} />
                   </div>
-                  <div className="text-2xl sm:text-3xl font-bold text-gray-900">{stat.value}</div>
+                  <div className="text-2xl font-bold text-gray-800">{stat.value}</div>
                   <div className="text-sm text-gray-500">{stat.label}</div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
@@ -289,8 +272,8 @@ const ExperiencePage: React.FC = () => {
       </section>
 
       {/* Main Content */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
           
           {/* Tab Navigation */}
           <div className="flex flex-wrap justify-center gap-3 mb-12">
@@ -301,10 +284,9 @@ const ExperiencePage: React.FC = () => {
             ].map((tab) => {
               const Icon = tab.icon;
               return (
-                <motion.button
+                <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as typeof activeTab)}
-                  whileHover={{ y: -2 }}
                   className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all ${
                     activeTab === tab.id
                       ? "bg-teal-600 text-white shadow-md"
@@ -312,15 +294,14 @@ const ExperiencePage: React.FC = () => {
                   }`}
                 >
                   <Icon className="w-5 h-5" />
-                  {tab.label}
+                  <span className="hidden sm:inline">{tab.label}</span>
+                  <span className="sm:hidden">{tab.label.split(' ')[0]}</span>
                   <span className={`ml-2 px-2 py-0.5 text-xs rounded-full ${
-                    activeTab === tab.id
-                      ? "bg-white/20 text-white"
-                      : "bg-gray-200 text-gray-600"
+                    activeTab === tab.id ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"
                   }`}>
                     {tab.count}
                   </span>
-                </motion.button>
+                </button>
               );
             })}
           </div>
@@ -332,106 +313,71 @@ const ExperiencePage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.3 }}
             >
-              {/* Work Experience - Timeline Layout */}
+              {/* Work Experience */}
               {activeTab === "work" && (
-                <div className="space-y-8">
-                  {/* Timeline Container */}
-                  <div className="relative">
-                    {/* Timeline Line */}
-                    <div className="absolute left-4 sm:left-1/2 top-0 bottom-0 w-0.5 bg-teal-200 hidden sm:block" />
+                <div className="space-y-6">
+                  {workExperience.map((exp, index) => {
+                    const Icon = exp.icon;
+                    const colors = getColorClasses(exp.color);
                     
-                    {workExperience.map((exp, index) => {
-                      const Icon = exp.icon;
-                      const isEven = index % 2 === 0;
-                      
-                      return (
-                        <motion.div
-                          key={exp.id}
-                          initial={{ opacity: 0, x: isEven ? -50 : 50 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.1 }}
-                          viewport={{ once: true }}
-                          className={`relative flex flex-col sm:flex-row gap-8 mb-8 ${
-                            isEven ? "sm:flex-row-reverse" : ""
-                          }`}
-                        >
-                          {/* Timeline Dot */}
-                          <div className="absolute left-4 sm:left-1/2 top-6 w-4 h-4 bg-white border-4 border-teal-500 rounded-full transform -translate-x-1/2 z-10 hidden sm:block" />
-                          
-                          {/* Content */}
-                          <div className={`sm:w-1/2 ${isEven ? "sm:pl-12" : "sm:pr-12"}`}>
-                            <motion.div
-                              whileHover={{ y: -5 }}
-                              className="bg-white rounded-xl shadow-lg overflow-hidden border-l-4 border-teal-500 transition-shadow hover:shadow-xl"
-                            >
-                              {/* Header */}
-                              <div className="p-6 bg-gray-50 border-b border-gray-100">
-                                <div className="flex items-center gap-3 mb-2">
-                                  <div className="p-2 bg-teal-100 rounded-lg">
-                                    <Icon className="w-5 h-5 text-teal-600" />
-                                  </div>
-                                  <span className="text-sm font-medium text-teal-600">{exp.type}</span>
-                                </div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-1">{exp.title}</h3>
-                                <p className="text-teal-600 font-medium">{exp.company}</p>
+                    return (
+                      <div key={exp.id} className="bg-white rounded-xl shadow-md overflow-hidden border-l-4" style={{ borderLeftColor: colors.bg.replace('bg-', '') }}>
+                        <div className="p-6">
+                          <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
+                            <div className="flex items-center gap-3">
+                              <div className={`w-12 h-12 ${colors.light} rounded-xl flex items-center justify-center`}>
+                                <Icon className={`w-6 h-6 ${colors.text}`} />
                               </div>
-                              
-                              {/* Details */}
-                              <div className="p-6">
-                                <div className="flex flex-wrap gap-4 mb-4 text-sm text-gray-500">
-                                  <div className="flex items-center gap-1">
-                                    <MapPin className="w-4 h-4" />
-                                    {exp.location}
-                                  </div>
-                                  <div className="flex items-center gap-1">
-                                    <Calendar className="w-4 h-4" />
-                                    {exp.period}
-                                  </div>
-                                </div>
-                                
-                                {/* Achievements */}
-                                <div className="space-y-2 mb-4">
-                                  {exp.achievements.slice(0, expandedIndex === exp.id ? undefined : 3).map((achievement, i) => (
-                                    <div key={i} className="flex items-start gap-2 text-sm text-gray-600">
-                                      <ChevronRight className="w-4 h-4 text-teal-500 flex-shrink-0 mt-0.5" />
-                                      <span>{achievement}</span>
-                                    </div>
-                                  ))}
-                                </div>
-                                
-                                {/* Show More/Less */}
-                                {exp.achievements.length > 3 && (
-                                  <button
-                                    onClick={() => setExpandedIndex(expandedIndex === exp.id ? null : exp.id)}
-                                    className="text-sm text-teal-600 font-medium hover:text-teal-700 mb-4"
-                                  >
-                                    {expandedIndex === exp.id ? "Show Less" : `Show ${exp.achievements.length - 3} More`}
-                                  </button>
-                                )}
-                                
-                                {/* Skills */}
-                                <div className="flex flex-wrap gap-2">
-                                  {exp.skills.map((skill, i) => (
-                                    <span
-                                      key={i}
-                                      className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full"
-                                    >
-                                      {skill}
-                                    </span>
-                                  ))}
-                                </div>
+                              <div>
+                                <h3 className="font-heading text-lg font-bold text-gray-800">{exp.title}</h3>
+                                <p className={`text-sm font-medium ${colors.text}`}>{exp.company}</p>
                               </div>
-                            </motion.div>
+                            </div>
+                            <span className={`px-3 py-1 ${colors.light} ${colors.text} text-sm rounded-full`}>
+                              {exp.type}
+                            </span>
                           </div>
-                          
-                          {/* Empty div for spacing */}
-                          <div className="sm:w-1/2" />
-                        </motion.div>
-                      );
-                    })}
-                  </div>
+
+                          <div className="flex flex-wrap gap-4 mb-4 text-sm text-gray-500">
+                            <span className="flex items-center gap-1">
+                              <MapPin className="w-4 h-4" /> {exp.location}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Calendar className="w-4 h-4" /> {exp.period}
+                            </span>
+                          </div>
+
+                          <div className="space-y-2 mb-4">
+                            {(expandedIndex === exp.id ? exp.achievements : exp.achievements.slice(0, 3)).map((achievement, i) => (
+                              <div key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                                <ChevronRight className={`w-4 h-4 ${colors.text} flex-shrink-0 mt-0.5`} />
+                                <span>{achievement}</span>
+                              </div>
+                            ))}
+                          </div>
+
+                          {exp.achievements.length > 3 && (
+                            <button
+                              onClick={() => setExpandedIndex(expandedIndex === exp.id ? null : exp.id)}
+                              className={`text-sm font-medium ${colors.text} hover:underline mb-4`}
+                            >
+                              {expandedIndex === exp.id ? "Show less" : `Show ${exp.achievements.length - 3} more`}
+                            </button>
+                          )}
+
+                          <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-100">
+                            {exp.skills.map((skill, i) => (
+                              <span key={i} className={`px-3 py-1 text-xs font-medium ${colors.light} ${colors.text} rounded-full`}>
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
 
@@ -440,107 +386,86 @@ const ExperiencePage: React.FC = () => {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {education.map((edu, index) => {
                     const Icon = edu.icon;
+                    const colors = getColorClasses(edu.color);
+                    
                     return (
-                      <motion.div
-                        key={edu.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        whileHover={{ y: -5 }}
-                        className="bg-white rounded-xl shadow-lg overflow-hidden border-l-4 border-sky-500"
-                      >
-                        <div className="p-6 bg-gray-50 border-b border-gray-100">
-                          <div className="p-2 bg-sky-100 rounded-lg inline-block mb-3">
-                            <Icon className="w-5 h-5 text-sky-600" />
+                      <div key={edu.id} className="bg-white rounded-xl shadow-md overflow-hidden">
+                        <div className={`p-6 ${colors.light}`}>
+                          <div className={`w-12 h-12 bg-white rounded-xl flex items-center justify-center mb-3 shadow-sm`}>
+                            <Icon className={`w-6 h-6 ${colors.text}`} />
                           </div>
-                          <h3 className="text-lg font-bold text-gray-900 mb-1">{edu.degree}</h3>
-                          <p className="text-sky-600 font-medium">{edu.institution}</p>
+                          <h3 className="font-heading text-lg font-bold text-gray-800 mb-1">{edu.degree}</h3>
+                          <p className={`text-sm font-medium ${colors.text}`}>{edu.institution}</p>
                         </div>
                         
                         <div className="p-6">
                           <div className="flex flex-wrap gap-3 mb-3 text-xs text-gray-500">
-                            <div className="flex items-center gap-1">
-                              <MapPin className="w-3 h-3" />
-                              {edu.location}
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Calendar className="w-3 h-3" />
-                              {edu.period}
-                            </div>
+                            <span className="flex items-center gap-1">
+                              <MapPin className="w-3 h-3" /> {edu.location}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Calendar className="w-3 h-3" /> {edu.period}
+                            </span>
                             {edu.grade && (
-                              <div className="flex items-center gap-1">
-                                <Star className="w-3 h-3 text-amber-500" />
-                                {edu.grade}
-                              </div>
+                              <span className="flex items-center gap-1">
+                                <Star className="w-3 h-3 text-amber-500" /> {edu.grade}
+                              </span>
                             )}
                           </div>
                           
                           <ul className="space-y-2">
                             {edu.achievements.map((achievement, i) => (
                               <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-                                <ChevronRight className="w-4 h-4 text-sky-500 flex-shrink-0 mt-0.5" />
+                                <ChevronRight className={`w-4 h-4 ${colors.text} flex-shrink-0 mt-0.5`} />
                                 {achievement}
                               </li>
                             ))}
                           </ul>
                         </div>
-                      </motion.div>
+                      </div>
                     );
                   })}
                 </div>
               )}
 
-              {/* Certifications & Achievements */}
+              {/* Certifications */}
               {activeTab === "certifications" && (
                 <div className="space-y-12">
-                  {/* Certifications Grid */}
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-6">Certifications</h3>
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                      {certifications.map((cert, index) => (
-                        <motion.div
-                          key={cert.id}
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: index * 0.1 }}
-                          className="bg-white rounded-lg shadow-sm p-5 border border-gray-100"
-                        >
-                          <Award className="w-8 h-8 text-teal-500 mb-3" />
-                          <h3 className="text-base font-semibold text-gray-900 mb-1">{cert.name}</h3>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {certifications.map((cert, index) => {
+                      const colors = getColorClasses(cert.color);
+                      
+                      return (
+                        <div key={cert.id} className="bg-white rounded-xl shadow-md p-6">
+                          <div className={`w-12 h-12 ${colors.light} rounded-xl flex items-center justify-center mb-4`}>
+                            <Award className={`w-6 h-6 ${colors.text}`} />
+                          </div>
+                          <h3 className="font-heading text-base font-bold text-gray-800 mb-1">{cert.name}</h3>
                           <p className="text-sm text-gray-600 mb-2">{cert.issuer}</p>
-                          <p className="text-xs text-gray-400 mb-3">Issued {cert.date}</p>
+                          <p className="text-xs text-gray-400 mb-4">Issued {cert.date}</p>
                           <div className="flex flex-wrap gap-1">
                             {cert.skills.map((skill, i) => (
-                              <span key={i} className="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded">
+                              <span key={i} className={`px-2 py-1 text-xs ${colors.light} ${colors.text} rounded-full`}>
                                 {skill}
                               </span>
                             ))}
                           </div>
-                        </motion.div>
-                      ))}
-                    </div>
+                        </div>
+                      );
+                    })}
                   </div>
 
-                  {/* Key Achievements */}
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-6">Key Achievements</h3>
-                    <div className="bg-gray-50 rounded-xl p-8 border border-gray-100">
-                      <div className="grid md:grid-cols-2 gap-4">
-                        {achievements.map((achievement, index) => (
-                          <motion.div
-                            key={index}
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.05 }}
-                            className="flex items-start gap-3"
-                          >
-                            <div className="w-5 h-5 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                              <span className="text-teal-600 text-xs">✓</span>
-                            </div>
-                            <p className="text-sm text-gray-700">{achievement}</p>
-                          </motion.div>
-                        ))}
-                      </div>
+                  <div className="bg-gray-50 rounded-xl p-8">
+                    <h3 className="font-heading text-xl font-bold text-gray-800 mb-6">Key Achievements</h3>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      {achievements.map((achievement, index) => (
+                        <div key={index} className="flex items-start gap-3 p-3 bg-white rounded-xl shadow-sm">
+                          <div className="w-6 h-6 bg-teal-600 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <span className="text-white text-xs">✓</span>
+                          </div>
+                          <p className="text-sm text-gray-700">{achievement}</p>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -549,15 +474,10 @@ const ExperiencePage: React.FC = () => {
           </AnimatePresence>
 
           {/* Call to Action */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mt-16 text-center"
-          >
-            <div className="bg-gray-50 rounded-xl p-8 border border-gray-200">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Want the Full Story?</h3>
-              <p className="text-gray-600 mb-4 max-w-2xl mx-auto">
+          <div className="mt-16 text-center">
+            <div className="bg-teal-50 rounded-xl p-8 border border-teal-200">
+              <h3 className="font-heading text-xl font-semibold text-gray-800 mb-2">Want the Full Story?</h3>
+              <p className="font-body text-gray-600 mb-4 max-w-2xl mx-auto">
                 Download my complete CV with detailed experience, achievements, and qualifications.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -565,16 +485,20 @@ const ExperiencePage: React.FC = () => {
                 <a
                   href="/assets/cv/index.html"
                   target="_blank"
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:border-teal-600 hover:text-teal-600 transition-colors inline-flex items-center justify-center gap-2"
+                  className="px-6 py-3 bg-white text-gray-700 rounded-xl hover:shadow-md transition-all border border-gray-200 inline-flex items-center justify-center gap-2"
                 >
                   <ExternalLink className="w-4 h-4" />
                   View Online
                 </a>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
+
+      <div className="text-center py-8 text-gray-400 text-sm border-t border-gray-200">
+        <p>Based in Nairobi, Kenya • Available for remote work worldwide</p>
+      </div>
     </div>
   );
 };

@@ -31,11 +31,11 @@ const Footer: React.FC = () => {
   ];
 
   const quickLinks = [
-    { name: "🏠 Home", id: "home" },
-    { name: "👤 About", id: "about" },
-    { name: "💻 Projects", id: "projects" },
-    { name: "📁 Experience", id: "experience" },
-    { name: "📬 Contact", id: "contact" }
+    { name: "Home", id: "home", emoji: "🏠" },
+    { name: "About", id: "about", emoji: "👤" },
+    { name: "Projects", id: "projects", emoji: "💻" },
+    { name: "Experience", id: "experience", emoji: "📁" },
+    { name: "Contact", id: "contact", emoji: "📬" }
   ];
 
   const contactDetails = [
@@ -111,7 +111,7 @@ const Footer: React.FC = () => {
         {/* Main Footer Content - Responsive Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8">
           
-          {/* Brand Section - Full width on mobile, column on larger */}
+          {/* Brand Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -120,21 +120,22 @@ const Footer: React.FC = () => {
             className="text-center sm:text-left col-span-1 sm:col-span-2 lg:col-span-1"
           >
             <div className="inline-block sm:block">
-              <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-teal-400 to-teal-300 bg-clip-text text-transparent">
-                Wilfred Osozi
+              <h3 className="font-heading text-2xl font-bold mb-2">
+                <span className="text-teal-400">Wilfred</span>{' '}
+                <span className="text-white">Osozi</span>
               </h3>
               <div className="flex items-center justify-center sm:justify-start gap-2 mb-3">
                 <span className="w-8 h-0.5 bg-teal-500/50 rounded-full"></span>
-                <span className="text-xs text-teal-400 font-medium tracking-wider">DUAL SPECIALIST</span>
+                <span className="text-xs text-teal-400 font-medium tracking-wider font-body">DUAL SPECIALIST</span>
                 <span className="w-8 h-0.5 bg-teal-500/50 rounded-full"></span>
               </div>
             </div>
             
-            <p className="text-gray-400 mb-4 text-sm leading-relaxed max-w-xs mx-auto sm:mx-0">
+            <p className="font-body text-gray-400 mb-4 text-sm leading-relaxed max-w-xs mx-auto sm:mx-0">
               🥗 Clinical Nutritionist & 💻 Full Stack Developer, bridging healthcare with technology through innovative digital solutions.
             </p>
             
-            {/* Social Links - Horizontal scroll on mobile */}
+            {/* Social Links */}
             <div className="flex justify-center sm:justify-start gap-2 overflow-x-auto pb-2 hide-scrollbar">
               {socialLinks.map((social, index) => {
                 const Icon = social.icon;
@@ -150,7 +151,7 @@ const Footer: React.FC = () => {
                     aria-label={social.label}
                   >
                     <Icon className="w-4 h-4 text-gray-300 group-hover:text-white" />
-                    <span className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-[10px] text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    <span className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-[10px] text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap font-body">
                       {social.label}
                     </span>
                   </motion.a>
@@ -159,7 +160,7 @@ const Footer: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Quick Links - Mobile friendly touch targets */}
+          {/* Quick Links */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -167,7 +168,7 @@ const Footer: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-center sm:text-left"
           >
-            <h4 className="text-base font-semibold mb-4 text-white flex items-center justify-center sm:justify-start gap-2">
+            <h4 className="font-heading text-base font-semibold mb-4 text-white flex items-center justify-center sm:justify-start gap-2">
               <span className="w-1 h-4 bg-teal-500 rounded-full"></span>
               Quick Links
             </h4>
@@ -178,16 +179,16 @@ const Footer: React.FC = () => {
                   onClick={() => handleNavClick(link.id)}
                   whileHover={{ x: 4 }}
                   whileTap={{ scale: 0.95 }}
-                  className="text-gray-400 hover:text-teal-400 transition-colors text-sm flex items-center justify-center sm:justify-start gap-2 group py-1.5"
+                  className="font-body text-gray-400 hover:text-teal-400 transition-colors text-sm flex items-center justify-center sm:justify-start gap-2 group py-1.5"
                 >
                   <span className="w-1.5 h-1.5 bg-teal-500/50 rounded-full group-hover:w-2 group-hover:bg-teal-400 transition-all" />
-                  <span>{link.name}</span>
+                  <span>{link.emoji} {link.name}</span>
                 </motion.button>
               ))}
             </div>
           </motion.div>
 
-          {/* Contact Info - Touch friendly */}
+          {/* Contact Info */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -195,7 +196,7 @@ const Footer: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-center sm:text-left"
           >
-            <h4 className="text-base font-semibold mb-4 text-white flex items-center justify-center sm:justify-start gap-2">
+            <h4 className="font-heading text-base font-semibold mb-4 text-white flex items-center justify-center sm:justify-start gap-2">
               <span className="w-1 h-4 bg-teal-500 rounded-full"></span>
               Contact
             </h4>
@@ -214,7 +215,7 @@ const Footer: React.FC = () => {
                       {...(item.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                     >
                       <Icon className="w-4 h-4 text-teal-500 group-hover:scale-110 transition-transform" />
-                      <span className="text-xs sm:text-sm break-all">{item.value}</span>
+                      <span className="font-body text-xs sm:text-sm break-all">{item.value}</span>
                     </a>
                   </motion.li>
                 );
@@ -222,7 +223,7 @@ const Footer: React.FC = () => {
             </ul>
           </motion.div>
 
-          {/* CV Section - Full width on mobile */}
+          {/* CV Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -230,12 +231,12 @@ const Footer: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="text-center sm:text-left col-span-1 sm:col-span-2 lg:col-span-1"
           >
-            <h4 className="text-base font-semibold mb-4 text-white flex items-center justify-center sm:justify-start gap-2">
+            <h4 className="font-heading text-base font-semibold mb-4 text-white flex items-center justify-center sm:justify-start gap-2">
               <span className="w-1 h-4 bg-teal-500 rounded-full"></span>
               My CV
             </h4>
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-5 border border-gray-700/50 hover:border-teal-500/30 transition-colors">
-              <p className="text-xs text-gray-400 mb-4 leading-relaxed">
+              <p className="font-body text-xs text-gray-400 mb-4 leading-relaxed">
                 📄 Download my complete professional experience and qualifications.
               </p>
               <div className="flex flex-col items-center sm:items-start gap-3">
@@ -245,7 +246,7 @@ const Footer: React.FC = () => {
                   href="/assets/cv/index.html"
                   target="_blank"
                   whileHover={{ x: 4 }}
-                  className="text-xs text-teal-400 hover:text-teal-300 flex items-center gap-2 group"
+                  className="font-body text-xs text-teal-400 hover:text-teal-300 flex items-center gap-2 group"
                 >
                   <FileText className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
                   <span>View Online Version</span>
@@ -275,13 +276,13 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Bar - Stacked on mobile */}
+        {/* Bottom Bar */}
         <div className="flex flex-col-reverse sm:flex-row justify-between items-center gap-4 pt-2">
           <motion.p 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-xs text-center sm:text-left text-gray-500 flex flex-wrap items-center justify-center gap-1"
+            className="font-body text-xs text-center sm:text-left text-gray-500 flex flex-wrap items-center justify-center gap-1"
           >
             <span>© {currentYear} Wilfred Osozi.</span>
             <span className="hidden sm:inline">•</span>
@@ -291,8 +292,8 @@ const Footer: React.FC = () => {
           </motion.p>
 
           <div className="flex items-center gap-4">
-            {/* Tech stack indicator - cute addition */}
-            <div className="flex items-center gap-1 text-xs text-gray-600">
+            {/* Tech stack indicator */}
+            <div className="flex items-center gap-1 font-body text-xs text-gray-600">
               <span className="w-1.5 h-1.5 bg-teal-500 rounded-full"></span>
               <span>React</span>
               <span className="w-1.5 h-1.5 bg-teal-500 rounded-full"></span>
@@ -320,7 +321,7 @@ const Footer: React.FC = () => {
           animate={{ opacity: 1 }}
           className="block sm:hidden text-center mt-4"
         >
-          <p className="text-[10px] text-gray-700 flex items-center justify-center gap-1">
+          <p className="font-body text-[10px] text-gray-700 flex items-center justify-center gap-1">
             <Sparkles className="w-3 h-3 text-teal-600" />
             Thanks for visiting!
             <Sparkles className="w-3 h-3 text-teal-600" />
