@@ -1,4 +1,3 @@
-// app/components/sections/ExperienceSection.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -26,7 +25,9 @@ import {
   CheckCircle,
   Eye,
   ExternalLink,
-  X
+  X,
+  Layers,
+  Info
 } from "lucide-react";
 
 interface ExperienceItem {
@@ -57,15 +58,32 @@ interface Certification {
   color: string;
   category: string;
   featured?: boolean;
-  certificateUrl: string;
+  imagePath: string;
   credentialId?: string;
+}
+
+interface ProfessionalDev {
+  id: number;
+  title: string;
+  organizer: string;
+  date: string;
+  emoji: string;
+  description: string;
+  skills: string[];
+  color: string;
+  imagePath: string;
+  credentialId?: string;
+  type: "conference" | "cpd" | "workshop";
 }
 
 const ExperienceSection: React.FC = () => {
   const [expandedId, setExpandedId] = useState<number | null>(null);
-  const [activeTab, setActiveTab] = useState<"work" | "education" | "certifications">("work");
+  const [activeTab, setActiveTab] = useState<"work" | "education" | "certifications" | "professional">("work");
   const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
+  const [selectedProfessional, setSelectedProfessional] = useState<ProfessionalDev | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState<"cert" | "professional">("cert");
+  const [expandedProfId, setExpandedProfId] = useState<number | null>(null);
 
   // Professionally ordered work experience
   const workExperience: ExperienceItem[] = [
@@ -252,7 +270,7 @@ const ExperienceSection: React.FC = () => {
     }
   ];
 
-  // Certifications with URLs
+  // Certifications with local image paths - including KNDI Registration
   const certifications: Certification[] = [
     { 
       id: 1, 
@@ -265,8 +283,8 @@ const ExperienceSection: React.FC = () => {
       color: "teal", 
       category: "academic", 
       featured: true,
-      certificateUrl: "https://egerton.ac.ke/verify/12345",
-      credentialId: "EGU/2025/12345"
+      imagePath: "/assets/images/certificates/degree-cert.webp",
+      credentialId: "B44092"
     },
     { 
       id: 2, 
@@ -279,8 +297,21 @@ const ExperienceSection: React.FC = () => {
       color: "blue", 
       category: "professional", 
       featured: true,
-      certificateUrl: "https://kndi.or.ke/verify/54321",
-      credentialId: "KNDI/2017/54321"
+      imagePath: "/assets/images/certificates/licence.webp",
+      credentialId: "KNDI/LIC/RG6975"
+    },
+    { 
+      id: 11, 
+      name: "KNDI Certificate of Registration", 
+      issuer: "Kenya Nutrition and Dietetics Institute", 
+      date: "February 2017", 
+      emoji: "📋", 
+      description: "Official registration as a Nutrition and Dietetics professional with the Kenya Nutrition and Dietetics Institute.",
+      skills: ["Professional Registration", "Nutrition Practice", "Dietetics"], 
+      color: "blue", 
+      category: "professional",
+      imagePath: "/assets/images/certificates/kndi-reg.webp",
+      credentialId: "G/1919/17"
     },
     { 
       id: 3, 
@@ -292,7 +323,7 @@ const ExperienceSection: React.FC = () => {
       skills: ["CBA", "Curriculum Development", "Assessment Design"], 
       color: "amber", 
       category: "professional",
-      certificateUrl: "https://tvet.go.ke/verify/67890",
+      imagePath: "/assets/images/certificates/cbet-training.webp",
       credentialId: "TVET/CBA/2020/67890"
     },
     { 
@@ -305,7 +336,7 @@ const ExperienceSection: React.FC = () => {
       skills: ["Instructional Design", "Digital Content", "E-Learning"], 
       color: "teal", 
       category: "professional",
-      certificateUrl: "https://tvet.go.ke/verify/09876",
+      imagePath: "/assets/images/certificates/tvet-digital.webp",
       credentialId: "TVET/DIG/2021/09876"
     },
     { 
@@ -318,7 +349,7 @@ const ExperienceSection: React.FC = () => {
       skills: ["Pediatric Assessment", "Complementary Feeding", "Gut Health"], 
       color: "rose", 
       category: "specialization",
-      certificateUrl: "https://kndi.or.ke/verify/13579",
+      imagePath: "/assets/images/certificates/kndi-pediatric.webp",
       credentialId: "KNDI/PED/2024/13579"
     },
     { 
@@ -331,7 +362,7 @@ const ExperienceSection: React.FC = () => {
       skills: ["Digital Literacy", "Communication", "Remote Work"], 
       color: "amber", 
       category: "tech",
-      certificateUrl: "https://alxafrica.com/verify/24680",
+      imagePath: "/assets/images/certificates/alx-professional.jpg",
       credentialId: "ALX/PD/2024/24680"
     },
     { 
@@ -344,7 +375,7 @@ const ExperienceSection: React.FC = () => {
       skills: ["AI Fundamentals", "Prompt Engineering", "AI Tools"], 
       color: "purple", 
       category: "tech",
-      certificateUrl: "https://alxafrica.com/verify/11223",
+      imagePath: "/assets/images/certificates/alx-ai.jpg",
       credentialId: "ALX/AI/2025/11223"
     },
     { 
@@ -357,7 +388,7 @@ const ExperienceSection: React.FC = () => {
       skills: ["HTML/CSS", "JavaScript", "Responsive Design"], 
       color: "blue", 
       category: "tech",
-      certificateUrl: "https://alxafrica.com/verify/44556",
+      imagePath: "/assets/images/certificates/alx-frontend.jpg",
       credentialId: "ALX/FE/2025/44556"
     },
     { 
@@ -371,7 +402,7 @@ const ExperienceSection: React.FC = () => {
       color: "purple", 
       category: "tech", 
       featured: true,
-      certificateUrl: "https://alxafrica.com/verify/77889",
+      imagePath: "/assets/images/certificates/alx-prodev.jpg",
       credentialId: "ALX/PRO/2025/77889"
     },
     { 
@@ -384,17 +415,70 @@ const ExperienceSection: React.FC = () => {
       skills: ["Python", "Django", "PostgreSQL"], 
       color: "blue", 
       category: "tech", 
-      featured: true,
-      certificateUrl: "https://alxafrica.com/verify/99001",
+      featured: false,
+      imagePath: "/assets/images/certificates/alx-backend.jpg",
       credentialId: "ALX/BE/2026/99001"
+    }
+  ];
+
+  // Professional Development - Clean, minimal cards
+  const professionalDev: ProfessionalDev[] = [
+    {
+      id: 1,
+      title: "Africa Health Agenda International Conference (AHAIC 2021)",
+      organizer: "AHAIC",
+      date: "8th - 10th March 2021",
+      emoji: "🌍",
+      description: "First Virtual Africa Health Agenda International Conference focusing on health agendas, policies, and innovations across Africa. Participated in discussions on healthcare transformation and nutrition policy.",
+      skills: ["Global Health", "Health Policy", "Healthcare Innovation"],
+      color: "teal",
+      imagePath: "/assets/images/professional/ahaic-2021.webp",
+      type: "conference"
+    },
+    {
+      id: 2,
+      title: "Legal Aspects of Nutrition & Dietetics Law in Kenya",
+      organizer: "Kenya Nutrition and Dietetics Institute",
+      date: "5th December 2016",
+      emoji: "⚖️",
+      description: "Comprehensive workshop covering legal frameworks in nutrition practice, core competencies, professional ethics, and integrity for nutrition and dietetics practitioners.",
+      skills: ["Legal Aspects", "Professional Ethics", "Nutrition Competence"],
+      color: "amber",
+      imagePath: "/assets/images/professional/kndi-workshop.webp",
+      credentialId: "SN:0223",
+      type: "workshop"
+    },
+    {
+      id: 3,
+      title: "Bringing Science to Early Life: Nutricia Scientific Congress",
+      organizer: "Danone - One Planet, One Health",
+      date: "July 2021",
+      emoji: "👶",
+      description: "CPD webinar on early life nutrition, scientific advances in pediatric nutrition, and the connection between nutrition and health outcomes.",
+      skills: ["Early Life Nutrition", "Pediatric Science", "Research"],
+      color: "purple",
+      imagePath: "/assets/images/professional/nutricia-congress.webp",
+      type: "cpd"
+    },
+    {
+      id: 4,
+      title: "Peri-operative Nutrition Support",
+      organizer: "The Speak Nutrition Society",
+      date: "2021",
+      emoji: "🏥",
+      description: "CPD webinar on nutritional support before and after surgery, including assessment, intervention strategies, and patient management.",
+      skills: ["Peri-operative Care", "Clinical Nutrition", "Patient Support"],
+      color: "rose",
+      imagePath: "/assets/images/professional/perioperative-cpd.webp",
+      type: "cpd"
     }
   ];
 
   const stats = [
     { emoji: "⏳", value: "9+", label: "Years Experience", color: "teal" },
-    { emoji: "🏆", value: "10+", label: "Certifications", color: "blue" },
+    { emoji: "🏆", value: "16+", label: "Certifications", color: "blue" },
     { emoji: "👥", value: "1000+", label: "Students", color: "amber" },
-    { emoji: "💻", value: "15+", label: "Projects", color: "purple" }
+    { emoji: "📚", value: "4+", label: "Professional Dev", color: "purple" }
   ];
 
   const getColorClasses = (color: string) => {
@@ -406,6 +490,40 @@ const ExperienceSection: React.FC = () => {
       purple: { text: "text-purple-600", border: "border-purple-200", light: "bg-purple-50", bg: "bg-purple-600" },
     };
     return colors[color] || colors.teal;
+  };
+
+  const getTypeIcon = (type: string) => {
+    switch(type) {
+      case "conference": return "🌍";
+      case "cpd": return "📚";
+      case "workshop": return "🔧";
+      default: return "📋";
+    }
+  };
+
+  const getTypeLabel = (type: string) => {
+    switch(type) {
+      case "conference": return "Conference";
+      case "cpd": return "CPD";
+      case "workshop": return "Workshop";
+      default: return type;
+    }
+  };
+
+  const handleViewProfessional = (item: ProfessionalDev) => {
+    setSelectedProfessional(item);
+    setModalType("professional");
+    setShowModal(true);
+  };
+
+  const handleViewCert = (cert: Certification) => {
+    setSelectedCert(cert);
+    setModalType("cert");
+    setShowModal(true);
+  };
+
+  const toggleProfExpand = (id: number) => {
+    setExpandedProfId(expandedProfId === id ? null : id);
   };
 
   return (
@@ -460,11 +578,12 @@ const ExperienceSection: React.FC = () => {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex justify-center gap-2 sm:gap-3 mb-8 sm:mb-10">
+        <div className="flex justify-center gap-2 sm:gap-3 mb-8 sm:mb-10 flex-wrap">
           {[
             { id: "work", label: "Work Experience", icon: Briefcase, count: workExperience.length },
             { id: "education", label: "Education", icon: GraduationCap, count: education.length },
-            { id: "certifications", label: "Certifications", icon: Award, count: certifications.length }
+            { id: "certifications", label: "Certifications", icon: Award, count: certifications.length },
+            { id: "professional", label: "Professional Dev", icon: Layers, count: professionalDev.length }
           ].map((tab) => {
             const isActive = activeTab === tab.id;
             const Icon = tab.icon;
@@ -744,7 +863,7 @@ const ExperienceSection: React.FC = () => {
               </div>
             )}
 
-            {/* Certifications with View Buttons */}
+            {/* Certifications */}
             {activeTab === "certifications" && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                 {certifications.map((cert, index) => {
@@ -779,7 +898,7 @@ const ExperienceSection: React.FC = () => {
                       )}
 
                       <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
-                        {cert.skills.map((skill, i) => (
+                        {cert.skills.slice(0, 3).map((skill, i) => (
                           <span
                             key={i}
                             className={`px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full ${colors.light} ${colors.text} border ${colors.border}`}
@@ -787,22 +906,138 @@ const ExperienceSection: React.FC = () => {
                             {skill}
                           </span>
                         ))}
+                        {cert.skills.length > 3 && (
+                          <span className={`px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full ${colors.light} ${colors.text} border ${colors.border}`}>
+                            +{cert.skills.length - 3}
+                          </span>
+                        )}
                       </div>
 
-                      {/* View Certificate Button */}
-                      <motion.a
-                        href={cert.certificateUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      {/* View Certificate Button - Preview Only */}
+                      <motion.button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleViewCert(cert);
+                        }}
                         className={`mt-auto w-full py-2.5 sm:py-3 rounded-lg ${colors.bg} text-white text-sm sm:text-base font-medium flex items-center justify-center gap-2 hover:opacity-90 transition-opacity`}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        onClick={(e) => e.stopPropagation()}
                       >
                         <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
-                        View Certificate
-                        <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 opacity-70" />
-                      </motion.a>
+                        Preview
+                      </motion.button>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Professional Development - Clean, minimal cards with expandable details */}
+            {activeTab === "professional" && (
+              <div className="space-y-4 sm:space-y-5">
+                {professionalDev.map((item) => {
+                  const colors = getColorClasses(item.color);
+                  const typeIcon = getTypeIcon(item.type);
+                  const typeLabel = getTypeLabel(item.type);
+                  const isExpanded = expandedProfId === item.id;
+                  
+                  return (
+                    <motion.div
+                      key={item.id}
+                      layout
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="bg-white rounded-xl sm:rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all overflow-hidden"
+                    >
+                      <div 
+                        className="p-5 sm:p-6 cursor-pointer"
+                        onClick={() => toggleProfExpand(item.id)}
+                      >
+                        <div className="flex items-start gap-4 sm:gap-5">
+                          <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl ${colors.light} flex items-center justify-center text-2xl sm:text-3xl flex-shrink-0`}>
+                            {item.emoji}
+                          </div>
+
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-start justify-between gap-3">
+                              <div>
+                                <h3 className="font-heading font-semibold text-gray-800 text-base sm:text-lg">{item.title}</h3>
+                                <p className="text-sm text-gray-500 mt-0.5">{item.organizer} • {item.date}</p>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full flex items-center gap-1">
+                                  <span>{typeIcon}</span>
+                                  <span>{typeLabel}</span>
+                                </span>
+                                <motion.div
+                                  animate={{ rotate: isExpanded ? 180 : 0 }}
+                                  transition={{ duration: 0.3 }}
+                                  className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0"
+                                >
+                                  <ChevronDown className="w-4 h-4 text-gray-500" />
+                                </motion.div>
+                              </div>
+                            </div>
+
+                            {/* Skills preview - minimal */}
+                            <div className="flex flex-wrap gap-1.5 mt-3">
+                              {item.skills.map((skill, i) => (
+                                <span
+                                  key={i}
+                                  className={`px-2 py-0.5 text-xs rounded-full ${colors.light} ${colors.text} border ${colors.border}`}
+                                >
+                                  {skill}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <AnimatePresence>
+                        {isExpanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="border-t border-gray-100"
+                          >
+                            <div className="p-5 sm:p-6 bg-gray-50">
+                              {/* Description */}
+                              <div className="mb-4">
+                                <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Description</h4>
+                                <p className="text-sm text-gray-600">{item.description}</p>
+                              </div>
+
+                              {/* Credential ID if exists */}
+                              {item.credentialId && (
+                                <div className="mb-4">
+                                  <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Credential ID</h4>
+                                  <p className="text-sm text-gray-600 font-mono bg-white p-2 rounded-lg border border-gray-200">
+                                    {item.credentialId}
+                                  </p>
+                                </div>
+                              )}
+
+                              {/* Preview Button */}
+                              <motion.button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleViewProfessional(item);
+                                }}
+                                className={`w-full py-2.5 rounded-lg ${colors.bg} text-white text-sm font-medium flex items-center justify-center gap-2 hover:opacity-90 transition-opacity`}
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                              >
+                                <Eye className="w-4 h-4" />
+                                Preview Certificate
+                              </motion.button>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </motion.div>
                   );
                 })}
@@ -825,92 +1060,194 @@ const ExperienceSection: React.FC = () => {
         </motion.div>
       </div>
 
-      {/* Certificate Detail Modal */}
+      {/* Preview Modal - No Download Option */}
       <AnimatePresence>
-        {selectedCert && showModal && (
+        {showModal && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setShowModal(false)}
-            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
           >
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-xl sm:rounded-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto shadow-xl"
+              className="bg-white rounded-xl sm:rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-xl"
             >
-              <div className="p-6 sm:p-8">
-                {/* Header */}
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center gap-4">
-                    <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl ${getColorClasses(selectedCert.color).light} flex items-center justify-center text-3xl sm:text-4xl`}>
-                      {selectedCert.emoji}
+              {modalType === "cert" && selectedCert && (
+                <div className="p-6 sm:p-8">
+                  {/* Certificate Modal Content - Preview Only */}
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="flex items-center gap-4">
+                      <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl ${getColorClasses(selectedCert.color).light} flex items-center justify-center text-3xl sm:text-4xl`}>
+                        {selectedCert.emoji}
+                      </div>
+                      <div>
+                        <h3 className="font-heading font-bold text-gray-800 text-xl sm:text-2xl">{selectedCert.name}</h3>
+                        <p className={`text-base sm:text-lg font-medium ${getColorClasses(selectedCert.color).text} mt-1`}>{selectedCert.issuer}</p>
+                        <p className="text-sm text-gray-500 mt-1">Issued {selectedCert.date}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-heading font-bold text-gray-800 text-xl sm:text-2xl">{selectedCert.name}</h3>
-                      <p className={`text-base sm:text-lg font-medium ${getColorClasses(selectedCert.color).text} mt-1`}>{selectedCert.issuer}</p>
-                      <p className="text-sm text-gray-500 mt-1">Issued {selectedCert.date}</p>
+                    <button 
+                      onClick={() => setShowModal(false)}
+                      className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                    >
+                      <X className="w-5 h-5 text-gray-500" />
+                    </button>
+                  </div>
+
+                  {/* Certificate Image - Preview Only */}
+                  {selectedCert.imagePath && (
+                    <div className="mb-6 border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
+                      <img 
+                        src={selectedCert.imagePath}
+                        alt={selectedCert.name}
+                        className="w-full h-auto object-contain"
+                        onError={(e) => {
+                          console.error('Failed to load image:', selectedCert.imagePath);
+                          (e.target as HTMLImageElement).src = '/assets/images/placeholder.jpg';
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Description */}
+                  {selectedCert.description && (
+                    <div className="mb-6">
+                      <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">Description</h4>
+                      <p className="text-gray-600 text-base">{selectedCert.description}</p>
+                    </div>
+                  )}
+
+                  {/* Credential ID */}
+                  {selectedCert.credentialId && (
+                    <div className="mb-6">
+                      <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">Credential ID</h4>
+                      <p className="text-gray-600 text-base font-mono bg-gray-50 p-3 rounded-lg">{selectedCert.credentialId}</p>
+                    </div>
+                  )}
+
+                  {/* Skills */}
+                  <div className="mb-6">
+                    <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">Skills</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedCert.skills.map((skill, i) => {
+                        const colors = getColorClasses(selectedCert.color);
+                        return (
+                          <span
+                            key={i}
+                            className={`px-3 py-1.5 text-sm rounded-full ${colors.light} ${colors.text} border ${colors.border}`}
+                          >
+                            {skill}
+                          </span>
+                        );
+                      })}
                     </div>
                   </div>
-                  <button 
-                    onClick={() => setShowModal(false)}
-                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                  >
-                    <X className="w-5 h-5 text-gray-500" />
-                  </button>
-                </div>
 
-                {/* Description */}
-                {selectedCert.description && (
+                  {/* Close Button - No Download Option */}
+                  <motion.button
+                    onClick={() => setShowModal(false)}
+                    className="w-full py-3 sm:py-4 rounded-xl bg-gray-200 text-gray-700 text-base sm:text-lg font-medium hover:bg-gray-300 transition-colors"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Close Preview
+                  </motion.button>
+                </div>
+              )}
+
+              {modalType === "professional" && selectedProfessional && (
+                <div className="p-6 sm:p-8">
+                  {/* Professional Development Modal Content - Preview Only */}
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="flex items-center gap-4">
+                      <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl ${getColorClasses(selectedProfessional.color).light} flex items-center justify-center text-3xl sm:text-4xl`}>
+                        {selectedProfessional.emoji}
+                      </div>
+                      <div>
+                        <h3 className="font-heading font-bold text-gray-800 text-xl sm:text-2xl">{selectedProfessional.title}</h3>
+                        <p className={`text-base sm:text-lg font-medium ${getColorClasses(selectedProfessional.color).text} mt-1`}>{selectedProfessional.organizer}</p>
+                        <p className="text-sm text-gray-500 mt-1">{selectedProfessional.date}</p>
+                      </div>
+                    </div>
+                    <button 
+                      onClick={() => setShowModal(false)}
+                      className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                    >
+                      <X className="w-5 h-5 text-gray-500" />
+                    </button>
+                  </div>
+
+                  {/* Type Badge */}
+                  <div className="mb-4">
+                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                      <span>{getTypeIcon(selectedProfessional.type)}</span>
+                      <span>{getTypeLabel(selectedProfessional.type)}</span>
+                    </span>
+                  </div>
+
+                  {/* Certificate Image - Preview Only */}
+                  {selectedProfessional.imagePath && (
+                    <div className="mb-6 border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
+                      <img 
+                        src={selectedProfessional.imagePath}
+                        alt={selectedProfessional.title}
+                        className="w-full h-auto object-contain"
+                        onError={(e) => {
+                          console.error('Failed to load image:', selectedProfessional.imagePath);
+                          (e.target as HTMLImageElement).src = '/assets/images/placeholder.jpg';
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Description */}
                   <div className="mb-6">
                     <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">Description</h4>
-                    <p className="text-gray-600 text-base">{selectedCert.description}</p>
+                    <p className="text-gray-600 text-base">{selectedProfessional.description}</p>
                   </div>
-                )}
 
-                {/* Credential ID */}
-                {selectedCert.credentialId && (
+                  {/* Credential ID */}
+                  {selectedProfessional.credentialId && (
+                    <div className="mb-6">
+                      <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">Credential ID</h4>
+                      <p className="text-gray-600 text-base font-mono bg-gray-50 p-3 rounded-lg">{selectedProfessional.credentialId}</p>
+                    </div>
+                  )}
+
+                  {/* Skills */}
                   <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">Credential ID</h4>
-                    <p className="text-gray-600 text-base font-mono bg-gray-50 p-3 rounded-lg">{selectedCert.credentialId}</p>
+                    <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">Skills</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProfessional.skills.map((skill, i) => {
+                        const colors = getColorClasses(selectedProfessional.color);
+                        return (
+                          <span
+                            key={i}
+                            className={`px-3 py-1.5 text-sm rounded-full ${colors.light} ${colors.text} border ${colors.border}`}
+                          >
+                            {skill}
+                          </span>
+                        );
+                      })}
+                    </div>
                   </div>
-                )}
 
-                {/* Skills */}
-                <div className="mb-6">
-                  <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">Skills</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedCert.skills.map((skill, i) => {
-                      const colors = getColorClasses(selectedCert.color);
-                      return (
-                        <span
-                          key={i}
-                          className={`px-3 py-1.5 text-sm rounded-full ${colors.light} ${colors.text} border ${colors.border}`}
-                        >
-                          {skill}
-                        </span>
-                      );
-                    })}
-                  </div>
+                  {/* Close Button - No Download Option */}
+                  <motion.button
+                    onClick={() => setShowModal(false)}
+                    className="w-full py-3 sm:py-4 rounded-xl bg-gray-200 text-gray-700 text-base sm:text-lg font-medium hover:bg-gray-300 transition-colors"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Close Preview
+                  </motion.button>
                 </div>
-
-                {/* View Certificate Button */}
-                <motion.a
-                  href={selectedCert.certificateUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`w-full py-3 sm:py-4 rounded-xl ${getColorClasses(selectedCert.color).bg} text-white text-base sm:text-lg font-medium flex items-center justify-center gap-2 hover:opacity-90 transition-opacity`}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Eye className="w-5 h-5 sm:w-6 sm:h-6" />
-                  View Full Certificate
-                  <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 opacity-70" />
-                </motion.a>
-              </div>
+              )}
             </motion.div>
           </motion.div>
         )}
