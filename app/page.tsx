@@ -4,10 +4,10 @@
 import React from "react";
 import Header from "@/components/common/Header";
 import HomeSection from "@/components/sections/HomeSection";
-import ProjectsSection from "@/components/sections/ProjectSection";
 import AboutSection from "@/components/sections/AboutSection";
+import ExperienceSection from "@/components/sections/ExperienceSection";
+import ProjectsSection from "@/components/sections/ProjectSection"
 import ContactSection from "@/components/sections/ContactSection";
-import ExperiencePage from "@/components/sections/ExperienceSection";
 
 const HomePage: React.FC = () => {
   return (
@@ -15,8 +15,8 @@ const HomePage: React.FC = () => {
       <Header />
       <HomeSection />
       <AboutSection />
-      <ProjectsSection />
-      <ExperiencePage />
+      <ExperienceSection /> 
+      <ProjectsSection />  
       <ContactSection />
     </div>
   );
